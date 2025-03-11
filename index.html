@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YOLO Object Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            width: 50%;
+        }
+        h2 {
+            color: #333;
+            font-size: 28px;
+        }
+        input[type="file"] {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload an image for detection</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            let formData = new FormData();
+            formData.append("file", document.getElementById("fileInput").files[0]);
+            
+            let response = await fetch("/predict/", {
+                method: "POST",
+                body: formData
+            });
+            let data = await response.json();
+            
+            document.getElementById("result").innerText = data.class ? "Detected Class: " + data.class + " (Confidence: " + data.confidence.toFixed(2) + ")" : data.message;
+        });
+    </script>
+</body>
+</html>

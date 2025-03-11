@@ -1,0 +1,7 @@
+path: Cars Detection
+train: D:\Projects\Graduation Project\Car Detecation\Cars Detection\train\images
+val: D:\Projects\Graduation Project\Car Detecation\Cars Detection\valid\images
+
+nc: 5
+names: ['Ambulance', 'Bus', 'Car', 'Motorcycle', 'Truck']
+
